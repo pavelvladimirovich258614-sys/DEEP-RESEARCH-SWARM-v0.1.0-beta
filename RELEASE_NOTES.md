@@ -42,17 +42,20 @@
 - `tools/scan-secrets.py` — reproducible secret scanner.
 - `LICENSE` (MIT) · `CHANGELOG.md` · `SECURITY.md` · `CONTRIBUTING.md` · `README.md` · `README.ru.md` · `README.zh-CN.md`.
 
-## Notes for the maintainer
-
-The current push to `origin` was blocked by GitHub credential constraints in this environment (the available GitHub credential is local-only; raw `git push` returns `Invalid username or token` even with a freshly-issued header). The release is fully prepared in `D:\AI\work\release\repo\`. To publish from a machine where `gh auth login` is interactive, run:
+## Verify the release
 
 ```bash
-gh auth login --git-protocol https
-cd /path/to/DEEP-RESEARCH-SWARM-v0.1.0-beta
-git push origin main --follow-tags
-gh release create v0.1.0-beta --title "DEEP RESEARCH SWARM v0.1.0-beta — First Public Beta" --notes-file RELEASE_NOTES.md
+git clone https://github.com/pavelvladimirovich258614-sys/DEEP-RESEARCH-SWARM-v0.1.0-beta.git
+cd DEEP-RESEARCH-SWARM-v0.1.0-beta
+python tools/scan-secrets.py
 ```
 
-If interactive login is not possible, the same content is shipped as a git bundle (`DEEP-RESEARCH-SWARM-v0.1.0-beta.bundle`) and a zip archive (`DEEP-RESEARCH-SWARM-v0.1.0-beta.zip`); they can be unpacked and force-pushed.
+## Install
 
-The release is also marked `READY TO PUBLISH` in the final report.
+See `docs/lobehub-installation.md` for step-by-step LobeHub setup, or `README.md` for the quick start.
+
+## Notes
+
+- All `agents/*.md` files are sanitized exports of live LobeHub system prompts: account-specific IDs, paths and credentials are removed, structure and wording are preserved.
+- `group/group-prompt-raw.txt` is the full group system prompt as exported; `group/group-prompt.md` is a commented reference of the same content.
+- The zip attached to this release is a ready-to-download snapshot of the repository at this tag.
