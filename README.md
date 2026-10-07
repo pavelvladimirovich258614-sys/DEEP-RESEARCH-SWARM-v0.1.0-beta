@@ -1,38 +1,43 @@
 # 🔎 DEEP RESEARCH SWARM
 
-**A multi-agent deep-research system for LobeHub.**  
-Search wide → verify primary sources → extract evidence → red-team claims → synthesize one citation-backed answer.
+**Search wide. Verify deep. Answer once.**
 
-[Русский](README.ru.md) · [简体中文](README.zh-CN.md) · **English**
+[English](README.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md)
 
-> **Status:** `v0.1.0-beta`  
-> This is a public beta configuration/framework, not a hosted service and not an official LobeHub project.
+> **Status:** `v0.1.0-beta`
+> A public beta configuration for LobeHub — six specialized agents coordinated by a single Curator. Not a hosted service. Not an official LobeHub product.
 
-![Installation flow](assets/install-flow.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Release: beta](https://img.shields.io/badge/Release-beta-orange.svg)
+![LobeHub](https://img.shields.io/badge/Built%20for-LobeHub-1f6feb.svg)
+![Multi-Agent](https://img.shields.io/badge/Architecture-Multi--Agent-blueviolet.svg)
+![Deep Research](https://img.shields.io/badge/Use%20case-Deep%20Research-2e7d32.svg)
+
+---
 
 ## Why this project exists
 
-Most "research agents" collapse several different jobs into one prompt: search, source selection, reading, verification, contradiction handling, and writing. DEEP RESEARCH SWARM splits those jobs across specialized agents coordinated by a single Curator.
+Most "research agents" cram several jobs into one prompt: search, source selection, reading, verification, contradiction handling, and writing. DEEP RESEARCH SWARM splits those jobs across specialized agents coordinated by a single Curator. The point is **not** to maximize the number of agents — the point is to build a disciplined evidence pipeline.
 
-The goal is not to maximize the number of agents. The goal is to create a disciplined evidence pipeline that can:
+The system:
 
-- fan out across the web, GitHub, forums, papers and official docs;
-- prefer primary sources over summaries;
-- keep claims tied to provenance;
-- distinguish facts, source claims, community signals and hypotheses;
-- detect contradictions instead of smoothing them over;
-- run targeted second-pass verification when evidence is weak;
-- return **one coherent final answer with real citations**.
+- fans out across the web, GitHub, forums, papers and official docs;
+- prefers primary sources over summaries;
+- keeps claims tied to provenance;
+- distinguishes facts, source claims, community signals, and hypotheses;
+- detects contradictions instead of smoothing them over;
+- runs targeted second-pass verification when evidence is weak;
+- returns **one coherent final answer with real citations**.
 
 ## Architecture
 
 ![Architecture](assets/architecture.svg)
 
-```text
+```
 User
   │
   ▼
-Curator / Research Director
+Curator / Research Director (Supervisor)
   │
   ├──► Wide Web Scout
   │       discovery · query fan-out · candidate pool
@@ -50,7 +55,7 @@ Curator / Research Director
           final synthesis · uncertainty · citations · actionable answer
 ```
 
-**Important:** this is a supervisor-controlled star topology. Specialists return results to the Curator; they do not recursively delegate to one another.
+This is a **supervisor-controlled star topology**. Specialists return their work to the Curator; they do not recursively delegate to one another.
 
 ## The six agents
 
@@ -58,184 +63,94 @@ Curator / Research Director
 |---|---|---|
 | **Curator / Research Director** | Plans, routes, controls depth, merges evidence, owns the final answer | research plan, workstreams, final decision |
 | **Wide Web Scout** | Finds the broad candidate space | ranked candidate pool + discovery map |
-| **Primary Source Hunter** | Replaces secondary mentions with authoritative sources | verified primary-source bundle |
-| **Evidence Analyst** | Reads deeply and extracts claims with provenance | evidence ledger + claim/entity/source graph |
-| **Fact Checker / Red Team** | Tries to falsify claims and blocks weak synthesis | PASS/FAIL gate + targeted verification tasks |
-| **Research Synthesizer** | Writes the final evidence-backed answer | concise synthesis with citations and uncertainty |
+| **Primary Source Hunter** | Goes after official docs / repos / papers / releases | provenance-first candidate list with URLs |
+| **Evidence Analyst** | Deep reads, extracts passages, builds the ledger | Evidence Ledger + Claim/Entity/Source graphs |
+| **Fact Checker / Red Team** | Tries to **disprove** candidate conclusions, runs the blocking Quality Gate | PASS/FAIL with gap extraction |
+| **Research Synthesizer** | Writes the one final answer | single-message Markdown report with claim-level citations |
+
+Each agent has a live system prompt in `agents/`.
 
 ## Research modes
 
-| Mode | Use when | Behavior |
-|---|---|---|
-| **QUICK** | narrow factual question | minimal agent set, fast verification |
-| **STANDARD** | normal research | discovery + primary-source check + synthesis |
-| **DEEP** | comparisons / technical research | multi-pass discovery, evidence analysis, red-team |
-| **MAX** | high-complexity research | broader fan-out, targeted gap search, stronger audit |
-| **ULTRA** | hardest / ambiguous investigations | adversarial branches, model/source cross-checking, exhaustive verification where useful |
+The Curator scales effort to the question. You can also pin a mode.
 
-The Curator should scale effort to the task rather than invoke the full swarm for every question.
+| Mode | When to use | Sources opened | Gap rounds |
+|---|---|---|---|
+| ⚡ QUICK | single fact / version / price | 3–8 | 0 |
+| 🔹 STANDARD | "compare X and Y" | 8–20 | 0–1 |
+| 🔎 DEEP | "find best alternatives" / a decision | 20–50 | 1–2 |
+| 🧠 MAX | "study the market" / high cost of error | 30–80 | multiple |
+| 🧬 ULTRA | only when you say "deepest possible" | 40–100 | maximum |
 
-## Installation in LobeHub
+See [`group/research-modes.md`](group/research-modes.md).
 
-Full guide: **[docs/lobehub-setup.md](docs/lobehub-setup.md)**
+## What you get
 
-### 1. Create a group
-Create a new LobeHub group called **DEEP RESEARCH SWARM**.
+- **One final answer** with claim-level citations, every claim traceable to a passage.
+- **A real Quality Gate.** The Fact Checker tries to disprove the answer before it ships. If it fails, the run loops until critical gaps are closed or the stop rule fires.
+- **Evidence Ledger + graphs.** Every claim has provenance: source class, date, retrieval date, confidence, verdict.
+- **Mode-aware depth.** Quick questions get quick answers; market studies get 30+ sources.
+- **Open-source MIT.** No vendor lock-in.
 
-### 2. Add the six agents
-Create one Supervisor/Curator and five specialists using the prompt templates in [`agents/`](agents/).
+## Quick start
 
-### 3. Configure tools
-Use the smallest tool set that supports each role. See [`docs/tools-and-skills.md`](docs/tools-and-skills.md).
+1. **Read [`docs/installation.md`](docs/lobehub-installation.md).** It walks through creating a LobeHub group, adding the six agents, pasting each prompt, and enabling the required tools.
+2. **Run [`tests/acceptance-test.md`](tests/acceptance-test.md).** This validates the configuration before any real research.
+3. **Try [`examples/quick-research.md`](examples/quick-research.md)** as your first run.
+4. **Try [`examples/deep-research.md`](examples/deep-research.md)** for a real pipeline.
 
-### 4. Paste the group protocol
-Use [`group/group-prompt.md`](group/group-prompt.md) as the group-level operating protocol.
+## Documentation
 
-### 5. Run the acceptance test
-Use [`tests/acceptance-test.md`](tests/acceptance-test.md).
+- [`docs/architecture.md`](docs/architecture.md) — why the pipeline looks the way it does
+- [`docs/lobehub-installation.md`](docs/lobehub-installation.md) — step-by-step setup
+- [`docs/tools-and-skills.md`](docs/tools-and-skills.md) — what each agent uses
+- [`docs/evidence-ledger.md`](docs/evidence-ledger.md) — schema, confidence, claim graph
+- [`docs/citation-policy.md`](docs/citation-policy.md) — five-step verification
+- [`docs/quality-gate.md`](docs/quality-gate.md) — the blocking gate
+- [`docs/troubleshooting.md`](docs/troubleshooting.md) — common failure modes
+- [`docs/known-issues.md`](docs/known-issues.md) — what the system does **not** claim
 
-### 6. Start with STANDARD or DEEP
-Do not enable maximum fan-out until a normal research run completes without tool-call errors.
+## Examples
 
-## Evidence policy
-
-The system separates evidence into explicit classes:
-
-- **FACT** — directly supported by evidence.
-- **SOURCE CLAIM** — a statement made by a source, attributed to that source.
-- **COMMUNITY SIGNAL** — forum/Reddit/user reports; useful but not authoritative.
-- **HYPOTHESIS** — plausible interpretation that still needs verification.
-- **UNKNOWN** — not established by available evidence.
-
-See **[Citation & Evidence Policy](docs/citation-and-evidence-policy.md)**.
-
-### GitHub date semantics
-
-When reporting repository freshness:
-
-```text
-GitHub pushed_at  → LAST_PUSH
-release date      → RELEASE_DATE
-commit date       → LAST_COMMIT only when an actual commit is inspected
-```
-
-Never silently relabel `pushed_at` as "last commit".
-
-## Recommended research loop
-
-```text
-UNDERSTAND
-  ↓
-PLAN
-  ↓
-DISCOVER WIDE
-  ↓
-VERIFY PRIMARY SOURCES
-  ↓
-EXTRACT EVIDENCE
-  ↓
-RED-TEAM / CONTRADICTION CHECK
-  ↓
-GAP SEARCH (only if needed)
-  ↓
-QUALITY GATE
-  ↓
-SYNTHESIZE ONCE
-```
-
-The final answer should be produced once, after the evidence state is good enough for the selected mode.
-
-## Example query
-
-```text
-Find the best current open-source alternatives to Perplexity for deep research.
-
-Requirements:
-- separate local vs cloud options;
-- verify GitHub repository freshness;
-- compare installation complexity, citations, agentic search and Windows support;
-- inspect official docs and repository issues;
-- distinguish confirmed facts from community reports;
-- recommend the top 3, not a directory of 50 projects.
-
-Mode: DEEP.
-```
-
-More examples: [`examples/`](examples/).
-
-## Output quality rules
-
-A strong final report should:
-
-1. answer the user's actual decision, not dump raw research;
-2. cite material claims;
-3. prefer primary sources;
-4. surface meaningful contradictions;
-5. label unknowns rather than invent details;
-6. avoid unsupported negative claims ("project X does not support Y") unless verified;
-7. distinguish Windows-native, WSL, Docker and cloud deployment paths;
-8. state degraded-mode behavior when one workstream fails;
-9. compress duplicate evidence;
-10. provide a clear recommendation when the user asked for one.
-
-## Stable-mode fallback
-
-Some LobeHub builds may show **"Orphaned Skill call"** during parallel agent/tool execution. This beta does not hide that limitation.
-
-If it reproduces in a new conversation:
-
-```text
-Disable parallel dispatch temporarily.
-
-Scout
-→ Hunter
-→ Analyst
-→ Fact Checker
-→ Synthesizer
-```
-
-Sequential supervisor-controlled dispatch is slower but easier to debug and is the recommended fallback until the tool-call pairing issue is resolved.
-
-See [`docs/known-issues.md`](docs/known-issues.md).
+- [`examples/quick-research.md`](examples/quick-research.md) — QUICK pipeline example
+- [`examples/deep-research.md`](examples/deep-research.md) — DEEP pipeline example
+- [`examples/github-research.md`](examples/github-research.md) — provenance-first
+- [`examples/model-comparison.md`](examples/model-comparison.md) — adversarial + benchmark normalization
+- [`examples/long-form-technical-research.md`](examples/long-form-technical-research.md) — MAX with target gap closure
 
 ## Repository layout
 
-```text
-agents/      agent prompt templates
-group/       group protocol and routing rules
-docs/        architecture, setup, evidence and tooling docs
-examples/    example research requests
-tests/       acceptance tests
-assets/      diagrams used in the README
+```
+DEEP-RESEARCH-SWARM-v0.1.0-beta/
+├── README.md             ← this file (EN)
+├── README.ru.md           ← Russian translation
+├── README.zh-CN.md       ← Chinese (Simplified) translation
+├── LICENSE               ← MIT
+├── CHANGELOG.md
+├── SECURITY.md
+├── CONTRIBUTING.md
+├── agents/               ← live system prompts for the six agents
+├── group/                ← group prompt, routing, modes, fallback
+├── docs/                 ← deep documentation
+├── tests/                 ← acceptance + orchestration + secret scan
+├── examples/             ← worked examples (5)
 ```
 
-## Security
+## Design inspirations / related work
 
-Never commit API keys, MCP secrets, account tokens, private URLs or personal conversation data.
+DEEP RESEARCH SWARM draws on documented patterns from:
 
-Before sharing a configuration publicly:
+- Perplexity Deep Research
+- OpenAI Deep Research
+- Gemini Deep Research
+- Kimi Researcher
+- GPT Researcher
+- DeerFlow
+- LangChain Open Deep Research
+- Anthropic multi-agent research (orchestrator-worker, four-field delegation contract, effort scaling, LLM-judge rubric)
 
-- remove agent IDs;
-- remove provider API keys;
-- remove local file paths;
-- remove private account identifiers;
-- review all external MCP permissions;
-- require confirmation for destructive or public write actions.
-
-See [SECURITY.md](SECURITY.md).
-
-## Beta scope
-
-`v0.1.0-beta` is intended to make the research architecture reproducible and inspectable. It does **not** claim benchmark parity with Perplexity, OpenAI Deep Research, Gemini Deep Research, Anthropic research systems or any other commercial product.
+This repository does **not** include any proprietary prompts from the above systems. It is not affiliated with, endorsed by, or supported by any of those organizations. Names are used solely to acknowledge the documented architectural patterns that informed the design.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
-
-## Acknowledgements
-
-Designed for use with **LobeHub/LobeChat** group agents. The project is independent and is not affiliated with or endorsed by LobeHub, Perplexity, OpenAI, Anthropic, Google, Mistral, Alibaba, or other vendors referenced in examples.
-
----
-
-**Search wide. Verify deep. Answer once.**
+MIT — see [`LICENSE`](LICENSE).

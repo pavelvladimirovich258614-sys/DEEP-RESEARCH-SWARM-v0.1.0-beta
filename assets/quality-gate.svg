@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+  <style>
+    .title { font-size: 22px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-size: 13px; fill: #475569; }
+    .check { fill: #ffffff; stroke: #334155; stroke-width: 1.5; }
+    .check-pass { fill: #dcfce7; stroke: #166534; stroke-width: 2; }
+    .check-fail { fill: #fee2e2; stroke: #b91c1c; stroke-width: 2; }
+    .check-title { font-size: 13px; font-weight: 700; fill: #0f172a; }
+    .check-sub { font-size: 11px; fill: #475569; }
+    .gate { fill: #fae8ff; stroke: #86198f; stroke-width: 2; }
+    .line { stroke: #334155; stroke-width: 2; fill: none; }
+    .line-pass { stroke: #166534; stroke-width: 2.5; fill: none; }
+    .line-fail { stroke: #b91c1c; stroke-width: 2.5; fill: none; stroke-dasharray: 5 5; }
+  </style>
+
+  <text x="40" y="36" class="title">🛡 Quality Gate</text>
+  <text x="40" y="56" class="subtitle">Fact Checker / Red Team owns this gate. It tries to DISPROVE the candidate answer.</text>
+
+  <!-- Top: incoming claims -->
+  <rect x="350" y="90" width="200" height="50" rx="10" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="450" y="115" text-anchor="middle" class="check-title">CLAIMS</text>
+  <text x="450" y="133" text-anchor="middle" class="check-sub">from Evidence Ledger</text>
+
+  <!-- 5 sequential checks -->
+  <rect x="40" y="180" width="160" height="56" rx="8" class="check"/>
+  <text x="120" y="202" text-anchor="middle" class="check-title">SUPPORTED?</text>
+  <text x="120" y="220" text-anchor="middle" class="check-sub">claim in ledger?</text>
+
+  <rect x="220" y="180" width="160" height="56" rx="8" class="check"/>
+  <text x="300" y="202" text-anchor="middle" class="check-title">PRIMARY SOURCE?</text>
+  <text x="300" y="220" text-anchor="middle" class="check-sub">docs · repo · paper</text>
+
+  <rect x="400" y="180" width="160" height="56" rx="8" class="check"/>
+  <text x="480" y="202" text-anchor="middle" class="check-title">CONTRADICTIONS?</text>
+  <text x="480" y="220" text-anchor="middle" class="check-sub">ledger vs ledger</text>
+
+  <rect x="580" y="180" width="160" height="56" rx="8" class="check"/>
+  <text x="660" y="202" text-anchor="middle" class="check-title">CITATION FIT?</text>
+  <text x="660" y="220" text-anchor="middle" class="check-sub">URL · version · date</text>
+
+  <rect x="760" y="180" width="100" height="56" rx="8" class="check"/>
+  <text x="810" y="206" text-anchor="middle" class="check-title">DATES OK?</text>
+
+  <!-- Decision -->
+  <rect x="350" y="290" width="200" height="60" rx="12" class="gate"/>
+  <text x="450" y="316" text-anchor="middle" class="check-title" fill="#86198f">QUALITY GATE</text>
+  <text x="450" y="333" text-anchor="middle" class="check-sub">PASS / FAIL</text>
+
+  <!-- PASS branch -->
+  <rect x="100" y="390" width="200" height="60" rx="12" fill="#dcfce7" stroke="#166534" stroke-width="2"/>
+  <text x="200" y="416" text-anchor="middle" class="check-title" fill="#166534">PASS</text>
+  <text x="200" y="434" text-anchor="middle" class="check-sub">→ Synthesizer runs</text>
+
+  <rect x="600" y="390" width="240" height="60" rx="12" fill="#fee2e2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="720" y="416" text-anchor="middle" class="check-title" fill="#b91c1c">FAIL</text>
+  <text x="720" y="434" text-anchor="middle" class="check-sub">→ targeted verification loop</text>
+
+  <!-- Arrows -->
+  <line x1="450" y1="140" x2="120" y2="180" class="line"/>
+  <line x1="450" y1="140" x2="300" y2="180" class="line"/>
+  <line x1="450" y1="140" x2="480" y2="180" class="line"/>
+  <line x1="450" y1="140" x2="660" y2="180" class="line"/>
+  <line x1="450" y1="140" x2="810" y2="180" class="line"/>
+
+  <line x1="120" y1="236" x2="450" y2="290" class="line"/>
+  <line x1="300" y1="236" x2="450" y2="290" class="line"/>
+  <line x1="480" y1="236" x2="450" y2="290" class="line"/>
+  <line x1="660" y1="236" x2="450" y2="290" class="line"/>
+  <line x1="810" y1="236" x2="450" y2="290" class="line"/>
+
+  <line x1="350" y1="320" x2="300" y2="390" class="line-pass"/>
+  <polygon points="300,384 290,392 300,400" fill="#166534"/>
+
+  <line x1="550" y1="320" x2="600" y2="390" class="line-fail"/>
+  <polygon points="600,384 610,392 600,400" fill="#b91c1c"/>
+
+  <!-- FAIL loop back -->
+  <path d="M 720 390 Q 720 470 450 470 Q 250 470 250 360 L 250 320" class="line-fail"/>
+  <polygon points="244,322 250,310 256,322" fill="#b91c1c"/>
+  <text x="450" y="490" text-anchor="middle" class="check-sub" fill="#b91c1c">loop back until gaps closed or stop rule fires</text>
+
+  <!-- Notes -->
+  <rect x="40" y="500" width="820" height="32" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="55" y="521" class="check-sub">Quality Gate is BLOCKING. Synthesizer cannot run on FAIL. The Curator cannot lower the gate.</text>
+</svg>

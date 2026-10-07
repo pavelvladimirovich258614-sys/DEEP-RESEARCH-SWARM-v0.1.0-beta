@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+  <style>
+    .title { font-size: 22px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-size: 13px; fill: #475569; }
+    .stage { fill: #ffffff; stroke: #334155; stroke-width: 1.5; }
+    .stage-curator { fill: #dbeafe; stroke: #1d4ed8; stroke-width: 2; }
+    .stage-source { fill: #ecfccb; stroke: #4d7c0f; stroke-width: 1.5; }
+    .stage-analysis { fill: #fef3c7; stroke: #b45309; stroke-width: 1.5; }
+    .stage-quality { fill: #fee2e2; stroke: #b91c1c; stroke-width: 2; }
+    .stage-final { fill: #fae8ff; stroke: #86198f; stroke-width: 2; }
+    .stage-title { font-size: 13px; font-weight: 700; fill: #0f172a; }
+    .stage-sub { font-size: 11px; fill: #475569; }
+    .line { stroke: #334155; stroke-width: 2; fill: none; }
+    .loop { stroke: #b91c1c; stroke-width: 1.5; fill: none; stroke-dasharray: 4 4; }
+  </style>
+
+  <text x="40" y="36" class="title">📊 Research pipeline</text>
+  <text x="40" y="56" class="subtitle">What happens between "the user asked a question" and "one final answer"</text>
+
+  <!-- Column 1: Curator -->
+  <rect x="40" y="100" width="180" height="50" rx="8" class="stage-curator"/>
+  <text x="130" y="124" text-anchor="middle" class="stage-title">QUESTION</text>
+  <text x="130" y="142" text-anchor="middle" class="stage-sub">mode auto-pick</text>
+
+  <rect x="40" y="170" width="180" height="50" rx="8" class="stage-curator"/>
+  <text x="130" y="194" text-anchor="middle" class="stage-title">CLARIFY</text>
+  <text x="130" y="212" text-anchor="middle" class="stage-sub">1–3 questions only if needed</text>
+
+  <rect x="40" y="240" width="180" height="50" rx="8" class="stage-curator"/>
+  <text x="130" y="264" text-anchor="middle" class="stage-title">PLAN</text>
+  <text x="130" y="282" text-anchor="middle" class="stage-sub">SEARCH_PROGRAM</text>
+
+  <!-- Column 2: Discovery -->
+  <rect x="260" y="100" width="180" height="50" rx="8" class="stage"/>
+  <text x="350" y="124" text-anchor="middle" class="stage-title">QUERY FAN-OUT</text>
+  <text x="350" y="142" text-anchor="middle" class="stage-sub">CORE · SYN · TECH · OFF · NEG …</text>
+
+  <rect x="260" y="170" width="180" height="50" rx="8" class="stage-source"/>
+  <text x="350" y="194" text-anchor="middle" class="stage-title">CANDIDATE POOL</text>
+  <text x="350" y="212" text-anchor="middle" class="stage-sub">50–150 sources</text>
+
+  <rect x="260" y="240" width="180" height="50" rx="8" class="stage-source"/>
+  <text x="350" y="264" text-anchor="middle" class="stage-title">PRIMARY SOURCES</text>
+  <text x="350" y="282" text-anchor="middle" class="stage-sub">docs · repos · papers</text>
+
+  <rect x="260" y="310" width="180" height="50" rx="8" class="stage"/>
+  <text x="350" y="334" text-anchor="middle" class="stage-title">RERANK</text>
+  <text x="350" y="352" text-anchor="middle" class="stage-sub">relevance · authority · freshness</text>
+
+  <!-- Column 3: Analysis -->
+  <rect x="480" y="170" width="180" height="50" rx="8" class="stage-analysis"/>
+  <text x="570" y="194" text-anchor="middle" class="stage-title">EVIDENCE LEDGER</text>
+  <text x="570" y="212" text-anchor="middle" class="stage-sub">claim-level provenance</text>
+
+  <rect x="480" y="240" width="180" height="50" rx="8" class="stage-analysis"/>
+  <text x="570" y="264" text-anchor="middle" class="stage-title">CLAIM / SOURCE GRAPH</text>
+  <text x="570" y="282" text-anchor="middle" class="stage-sub">depends_on · contradicts</text>
+
+  <rect x="480" y="310" width="180" height="50" rx="8" class="stage-analysis"/>
+  <text x="570" y="334" text-anchor="middle" class="stage-title">GAP CLOSURE</text>
+  <text x="570" y="352" text-anchor="middle" class="stage-sub">2–4 narrow queries per gap</text>
+
+  <!-- Column 4: Quality Gate -->
+  <rect x="700" y="170" width="180" height="60" rx="10" class="stage-quality"/>
+  <text x="790" y="196" text-anchor="middle" class="stage-title">RED TEAM</text>
+  <text x="790" y="212" text-anchor="middle" class="stage-sub">try to DISPROVE</text>
+  <text x="790" y="225" text-anchor="middle" class="stage-sub">5-step citation verification</text>
+
+  <rect x="700" y="250" width="180" height="60" rx="10" class="stage-quality"/>
+  <text x="790" y="276" text-anchor="middle" class="stage-title">CITATION AUDIT</text>
+  <text x="790" y="292" text-anchor="middle" class="stage-sub">URL exists · opened</text>
+  <text x="790" y="305" text-anchor="middle" class="stage-sub">supports · dates · not paraphrased</text>
+
+  <!-- Column 4 continued: PASS / FAIL -->
+  <rect x="700" y="340" width="180" height="60" rx="10" class="stage-final"/>
+  <text x="790" y="366" text-anchor="middle" class="stage-title">QUALITY GATE</text>
+  <text x="790" y="382" text-anchor="middle" class="stage-sub">PASS → Synthesizer</text>
+  <text x="790" y="395" text-anchor="middle" class="stage-sub">FAIL → targeted verification</text>
+
+  <!-- Final -->
+  <rect x="350" y="450" width="200" height="60" rx="12" class="stage-final"/>
+  <text x="450" y="478" text-anchor="middle" class="stage-title">SYNTHESIS</text>
+  <text x="450" y="496" text-anchor="middle" class="stage-sub">one final message · citations</text>
+
+  <!-- Connectors -->
+  <line x1="220" y1="125" x2="260" y2="125" class="line"/>
+  <line x1="440" y1="125" x2="480" y2="195" class="line"/>
+  <line x1="440" y1="195" x2="480" y2="195" class="line"/>
+  <line x1="660" y1="195" x2="700" y2="200" class="line"/>
+  <line x1="790" y1="230" x2="790" y2="250" class="line"/>
+  <line x1="790" y1="310" x2="790" y2="340" class="line"/>
+  <line x1="700" y1="370" x2="550" y2="450" class="line"/>
+  <polygon points="554,448 545,452 552,460" fill="#86198f"/>
+
+  <!-- Loop back from FAIL -->
+  <line x1="700" y1="395" x2="350" y2="305" class="loop"/>
+  <text x="500" y="425" class="stage-sub" fill="#b91c1c">FAIL → targeted verification → loop</text>
+
+  <!-- Mini map legend -->
+  <text x="40" y="540" class="stage-sub">Solid arrows: normal flow. Red dashed arrow: verification loop.</text>
+  <text x="40" y="560" class="stage-sub">Quality Gate is blocking. Synthesizer never runs without PASS.</text>
+  <text x="40" y="580" class="stage-sub">Stages 1–3 are Curator-controlled; stages 4–6 are specialist-owned.</text>
+</svg>

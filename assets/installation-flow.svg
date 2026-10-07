@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 360" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+  <style>
+    .title { font-size: 22px; font-weight: 700; fill: #0f172a; }
+    .subtitle { font-size: 13px; fill: #475569; }
+    .step { fill: #ffffff; stroke: #334155; stroke-width: 1.5; }
+    .step-title { font-size: 13px; font-weight: 700; fill: #0f172a; }
+    .step-sub { font-size: 11px; fill: #475569; }
+    .num { fill: #1d4ed8; }
+    .num-text { font-size: 14px; font-weight: 700; fill: #ffffff; }
+    .line { stroke: #334155; stroke-width: 2; fill: none; }
+  </style>
+
+  <text x="40" y="36" class="title">🛠 Installation flow</text>
+  <text x="40" y="56" class="subtitle">From a fresh LobeHub account to a working six-agent research swarm</text>
+
+  <!-- 7 steps in a row -->
+  <!-- 1 -->
+  <circle cx="120" cy="130" r="22" class="num"/>
+  <text x="120" y="135" text-anchor="middle" class="num-text">1</text>
+  <rect x="50" y="170" width="160" height="60" rx="10" class="step"/>
+  <text x="130" y="195" text-anchor="middle" class="step-title">Create Group</text>
+  <text x="130" y="213" text-anchor="middle" class="step-sub">name: 🔎 DEEP RESEARCH SWARM</text>
+
+  <!-- 2 -->
+  <circle cx="270" cy="130" r="22" class="num"/>
+  <text x="270" y="135" text-anchor="middle" class="num-text">2</text>
+  <rect x="200" y="170" width="160" height="60" rx="10" class="step"/>
+  <text x="280" y="195" text-anchor="middle" class="step-title">Add Supervisor</text>
+  <text x="280" y="213" text-anchor="middle" class="step-sub">Curator / Research Director</text>
+
+  <!-- 3 -->
+  <circle cx="420" cy="130" r="22" class="num"/>
+  <text x="420" y="135" text-anchor="middle" class="num-text">3</text>
+  <rect x="350" y="170" width="160" height="60" rx="10" class="step"/>
+  <text x="430" y="195" text-anchor="middle" class="step-title">Add Specialists</text>
+  <text x="430" y="213" text-anchor="middle" class="step-sub">5 more agents (Scout…Synthesizer)</text>
+
+  <!-- 4 -->
+  <circle cx="570" cy="130" r="22" class="num"/>
+  <text x="570" y="135" text-anchor="middle" class="num-text">4</text>
+  <rect x="500" y="170" width="160" height="60" rx="10" class="step"/>
+  <text x="580" y="195" text-anchor="middle" class="step-title">Paste Prompts</text>
+  <text x="580" y="213" text-anchor="middle" class="step-sub">verbatim, do not paraphrase</text>
+
+  <!-- 5 -->
+  <circle cx="720" cy="130" r="22" class="num"/>
+  <text x="720" y="135" text-anchor="middle" class="num-text">5</text>
+  <rect x="650" y="170" width="160" height="60" rx="10" class="step"/>
+  <text x="730" y="195" text-anchor="middle" class="step-title">Enable Tools</text>
+  <text x="730" y="213" text-anchor="middle" class="step-sub">per agent — see docs/tools</text>
+
+  <!-- 6 -->
+  <circle cx="870" cy="130" r="22" class="num"/>
+  <text x="870" y="135" text-anchor="middle" class="num-text">6</text>
+  <rect x="800" y="170" width="160" height="60" rx="10" class="step"/>
+  <text x="880" y="195" text-anchor="middle" class="step-title">Group Prompt</text>
+  <text x="880" y="213" text-anchor="middle" class="step-sub">paste from group/group-prompt</text>
+
+  <!-- 7 -->
+  <circle cx="1020" cy="130" r="22" class="num"/>
+  <text x="1020" y="135" text-anchor="middle" class="num-text">7</text>
+  <rect x="950" y="170" width="160" height="60" rx="10" class="step"/>
+  <text x="1030" y="195" text-anchor="middle" class="step-title">Acceptance Test</text>
+  <text x="1030" y="213" text-anchor="middle" class="step-sub">then first research</text>
+
+  <!-- arrows -->
+  <line x1="142" y1="130" x2="248" y2="130" class="line"/>
+  <polygon points="248,124 256,130 248,136" fill="#334155"/>
+  <line x1="292" y1="130" x2="398" y2="130" class="line"/>
+  <polygon points="398,124 406,130 398,136" fill="#334155"/>
+  <line x1="442" y1="130" x2="548" y2="130" class="line"/>
+  <polygon points="548,124 556,130 548,136" fill="#334155"/>
+  <line x1="592" y1="130" x2="698" y2="130" class="line"/>
+  <polygon points="698,124 706,130 698,136" fill="#334155"/>
+  <line x1="742" y1="130" x2="848" y2="130" class="line"/>
+  <polygon points="848,124 856,130 848,136" fill="#334155"/>
+  <line x1="892" y1="130" x2="998" y2="130" class="line"/>
+  <polygon points="998,124 1006,130 998,136" fill="#334155"/>
+
+  <!-- Tip -->
+  <rect x="50" y="280" width="1060" height="48" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="65" y="300" class="step-title">Tip</text>
+  <text x="65" y="318" class="step-sub">Always start a fresh conversation for deep research — long histories break claim-level citations.</text>
+</svg>
