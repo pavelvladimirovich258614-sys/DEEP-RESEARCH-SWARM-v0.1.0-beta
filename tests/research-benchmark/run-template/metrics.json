@@ -1,0 +1,28 @@
+{
+  "schema": "swarm-run/1.0",
+  "run_id": "run-001",
+  "task_id": "BR-00",
+  "task_title": "",
+  "expected_mode": "",
+  "mode_used": null,
+  "started_at": null,
+  "finished_at": null,
+
+  "runtime_seconds": null,
+  "agents": 6,
+  "sources_found": null,
+  "unique_domains": null,
+  "primary_sources": null,
+  "secondary_sources": null,
+  "community_sources": null,
+  "duplicate_sources": null,
+
+  "input_tokens": null,
+  "output_tokens": null,
+  "input_cost_usd": null,
+  "output_cost_usd": null,
+
+  "errors": [],
+  "injected_failures": [],
+  "notes": "Token and cost fields stay null unless the platform actually reports them. Do not estimate them from text length."
+}

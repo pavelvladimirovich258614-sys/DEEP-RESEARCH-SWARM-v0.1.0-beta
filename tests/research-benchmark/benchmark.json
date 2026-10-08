@@ -1,0 +1,308 @@
+{
+  "schema_version": "1.0",
+  "benchmark_name": "DEEP RESEARCH SWARM — research-benchmark",
+  "benchmark_version": "0.1",
+  "created_for_release": "v0.1.0-beta",
+  "purpose": "Measure how well the swarm answers complex research questions BEFORE any prompt is rewritten. Principle: MEASURE -> FIND FAILURE -> FIX -> RETEST.",
+  "notes": [
+    "Every task is deliberately NOT answerable by a single search query.",
+    "expected_mode is what the Curator is expected to auto-select; a mismatch is itself a finding.",
+    "required_signals are mechanically checkable from the final report.",
+    "known_traps list the ways a swarm typically fails that task, for the Red Team.",
+    "Do not edit agent prompts because a task scores badly. Score first, then change one thing at a time."
+  ],
+  "difficulty_scale": {
+    "1": "single-source lookup, should pass in QUICK mode",
+    "2": "multi-source synthesis, STANDARD",
+    "3": "verification + contradiction handling, DEEP",
+    "4": "open-ended primary-source archaeology with gaps, MAX"
+  },
+  "tasks": [
+    {
+      "id": "BR-01",
+      "category": "ai_llm_research",
+      "title": "Cross-vendor agentic capability comparison",
+      "difficulty": 3,
+      "expected_mode": "DEEP",
+      "query": "Compare the architecture and agentic capabilities of the current flagship versions from OpenAI, Anthropic, Google, Z.ai, MiniMax and Qwen. Prefer primary sources: official docs, model cards, API references, changelogs and official pricing pages. Separate confirmed technical facts from vendor marketing claims. Explicitly flag any contradiction between an official vendor claim and an independent third-party measurement. For each vendor state: what it can actually do, what is claimed but not independently verified, and what a developer cannot use yet.",
+      "required_signals": [
+        "at least 5 distinct vendor primary sources",
+        "explicit FACT vs SOURCE CLAIM separation",
+        "at least one vendor claim flagged as marketing-only or unverified",
+        "a dated statement of which version was current at time of research"
+      ],
+      "known_traps": [
+        "citing a launch blog post as proof of capability",
+        "mixing prices from different regions or plan tiers",
+        "reporting a version number that was superseded mid-research"
+      ]
+    },
+    {
+      "id": "BR-02",
+      "category": "technology_comparison",
+      "title": "Retrieval architecture trade-off",
+      "difficulty": 3,
+      "expected_mode": "DEEP",
+      "query": "For a production RAG system handling roughly 10 million documents, compare vector search, hybrid BM25+vector, and graph RAG. Ground the comparison in real published benchmarks and official documentation of the underlying engines (pgvector, Qdrant, Milvus, Weaviate, Vespa, Elasticsearch). State which method fits which constraint, and be explicit about which published benchmarks are vendor-run and therefore not independent.",
+      "required_signals": [
+        "comparison table with a criterion per row",
+        "at least 3 engine primary sources (official docs)",
+        "self-reported benchmarks labelled as SELF-REPORTED",
+        "a recommendation conditioned on stated constraints, not absolute"
+      ],
+      "known_traps": [
+        "quoting vendor benchmarks as neutral evidence",
+        "ignoring index build time and memory cost",
+        "recommending one option without conditions"
+      ]
+    },
+    {
+      "id": "BR-03",
+      "category": "github_project_research",
+      "title": "Repository health and maintainership audit",
+      "difficulty": 3,
+      "expected_mode": "DEEP",
+      "query": "Audit the current health of the top 3 most-starred actively maintained open-source vector database projects. For each: license, recent commit cadence, last release and its date, open issue volume, number of contributors, breaking changes in the last year, and whether the project is effectively unmaintained despite its star count. Use GitHub as the primary source and note that stars are an adoption signal, not a quality signal.",
+      "required_signals": [
+        "per-project REPOSITORY HEALTH block with the 8 named fields",
+        "star count explicitly discounted as a quality signal",
+        "dated evidence for release recency",
+        "at least one explicit unknown or NOT VERIFIED if data is inaccessible"
+      ],
+      "known_traps": [
+        "ranking by stars and calling the result a quality ranking",
+        "reporting stars without a retrieval date",
+        "claiming abandonment from issue count alone"
+      ]
+    },
+    {
+      "id": "BR-04",
+      "category": "marketing_research",
+      "title": "Developer-tool positioning teardown",
+      "difficulty": 2,
+      "expected_mode": "STANDARD",
+      "query": "Analyse how the current generation of AI coding assistants position themselves to enterprise engineering buyers. Compare their public messaging, target segments, stated integrations, and pricing pages. Distinguish what is publicly documented from what is inferred from marketing language. Do not use paid market reports; use only public vendor pages and their own changelogs.",
+      "required_signals": [
+        "at least 4 vendor pages cited",
+        "marketing claim vs documented capability distinguished",
+        "no fabricated market-share or analyst numbers",
+        "explicit statement that no paywalled analyst data was used"
+      ],
+      "known_traps": [
+        "inventing market share figures",
+        "citing an aggregator blog instead of the vendor page",
+        "paraphrasing a slogan as a capability"
+      ]
+    },
+    {
+      "id": "BR-05",
+      "category": "competitive_analysis",
+      "title": "Open-source governance competition",
+      "difficulty": 3,
+      "expected_mode": "DEEP",
+      "query": "Compare the governance and funding models of the major open-source Linux kernel-adjacent projects (for example kernel.org itself, LLVM, FFmpeg, Debian and Homebrew). Use official governance documents, foundation pages and funding disclosures as primary sources. Explain how decision rights, maintainer succession and funding sustainability differ, and note where a project is de facto controlled by one commercial vendor.",
+      "required_signals": [
+        "at least 4 official governance or foundation documents",
+        "vendor-control observation backed by a cited document",
+        "claim-level citations on funding statements",
+        "explicit UNKNOWN where governance is undocumented"
+      ],
+      "known_traps": [
+        "asserting corporate control from job postings alone",
+        "ignoring conflict-of-interest policy documents",
+        "treating trademark ownership as governance"
+      ]
+    },
+    {
+      "id": "BR-06",
+      "category": "market_search",
+      "title": "Market landscape for on-device inference",
+      "difficulty": 3,
+      "expected_mode": "DEEP",
+      "query": "Map the current market for on-device LLM inference. Cover the available runtimes (llama.cpp, ONNX Runtime, MLC, ExecuTorch, Apple MLX, Google's own tooling), the model families realistically runnable on consumer hardware, and the practical hardware floor. Give size-class guidance by device tier with measured evidence rather than vendor claims, and state clearly where the ecosystem lacks independent measurement.",
+      "required_signals": [
+        "at least 4 runtime primary sources (repos or official docs)",
+        "quantified hardware thresholds with sources",
+        "explicit note where only vendor benchmarks exist",
+        "not one search query: must span runtimes, models and hardware"
+      ],
+      "known_traps": [
+        "quoting a demo video as a performance result",
+        "ignoring quantisation as the real driver of feasibility",
+        "conflating context length limits with model capability"
+      ]
+    },
+    {
+      "id": "BR-07",
+      "category": "claim_verification",
+      "title": "Deliberately false premise",
+      "difficulty": 3,
+      "expected_mode": "DEEP",
+      "query": "Verify or refute the following claim: 'PostgreSQL 19 removed the ability to use recursive common table expressions in materialized views.' Use the PostgreSQL release notes, official documentation and the pgsql-hackers mailing list archives as primary sources. Report whether the claim is true, false, or partially true, and show the evidence.",
+      "required_signals": [
+        "explicit verdict true/false/partial",
+        "release-note or documentation citation",
+        "mailing-list discussion cited if used",
+        "no acceptance of the premise without a cited source"
+      ],
+      "known_traps": [
+        "finding a blog post that repeats the false claim and citing it",
+        "refuting from general knowledge without a primary source",
+        "hedging so much that no verdict is given"
+      ]
+    },
+    {
+      "id": "BR-08",
+      "category": "multi_source_research",
+      "title": "Supply-chain incident timeline",
+      "difficulty": 4,
+      "expected_mode": "MAX",
+      "query": "Reconstruct the timeline of a well-known open-source supply-chain compromise (for example the xz-utils backdoor, the SolarWinds Orion breach, or the Log4Shell disclosure). Establish, from primary sources where possible: the earliest known introduction date, how it was detected, what the maintainer or vendor disclosed and when, which release versions were affected, and which claims about impact turned out to be overstated. Distinguish confirmed timeline facts from later retellings that drifted.",
+      "required_signals": [
+        "ordered timeline with dated sources",
+        "affected-version list with evidence",
+        "explicit separation of confirmed facts from drifted retellings",
+        "statement of what remains disputed"
+      ],
+      "known_traps": [
+        "conflating different incidents into one narrative",
+        "citing a retrospective blog as the primary timeline source",
+        "overstating blast radius beyond the documented evidence"
+      ]
+    },
+    {
+      "id": "BR-09",
+      "category": "technical_research",
+      "title": "Protocol-level protocol comparison",
+      "difficulty": 4,
+      "expected_mode": "MAX",
+      "query": "For the current Model Context Protocol, determine the exact mechanism by which a host authenticates an OAuth-protected remote server: authorisation-code flow with PKCE, dynamic client registration, or both. Ground the answer in the specification text and reference server implementations, identify which parts are normative versus implementation-defined, and state what an integrator must implement to be conformant.",
+      "required_signals": [
+        "specification section cited for the normative claim",
+        "reference implementation named and cited",
+        "normative vs implementation-defined split made explicit",
+        "at least one documented gap or ambiguity in the spec"
+      ],
+      "known_traps": [
+        "describing an earlier draft of the spec as current",
+        "confusing MCP authorization with the transport layer",
+        "asserting conformance requirements without quoting the spec"
+      ]
+    },
+    {
+      "id": "BR-10",
+      "category": "contradictory_data",
+      "title": "Reconcile conflicting benchmarks",
+      "difficulty": 4,
+      "expected_mode": "MAX",
+      "query": "Independent benchmarks of the same open-source inference engine frequently disagree. Using a concrete engine, collect at least four published benchmark results and explain the methodological reasons for the disagreement: hardware, batch size, quantisation, prompt formatting, warmup, tokenizer and reported metric. Take a position on which result is most credible and say what evidence would change your mind.",
+      "required_signals": [
+        "at least 4 distinct benchmark sources",
+        "explicit methodology-differs analysis, not just 'results vary'",
+        "a ranked judgement with reasoning",
+        "a falsification condition stated"
+      ],
+      "known_traps": [
+        "averaging the numbers",
+        "ignoring that one source is vendor-run",
+        "dismissing a result without explaining the methodology"
+      ]
+    },
+    {
+      "id": "BR-11",
+      "category": "product_analysis",
+      "title": "Pricing model teardown with hidden costs",
+      "difficulty": 2,
+      "expected_mode": "STANDARD",
+      "query": "For one managed LLM API provider, reconstruct the full effective cost of a production workload of roughly 50 million tokens per month. Cover list pricing, tiered volume discounts, context caching pricing, batch pricing, rate limits, and the retry behaviour that turns an outage into a bill. Cite the official pricing page and state every assumption with its value.",
+      "required_signals": [
+        "official pricing page cited with retrieval date",
+        "arithmetic shown, not just a final number",
+        "assumptions enumerated explicitly",
+        "note on billing granularity or minimums"
+      ],
+      "known_traps": [
+        "computing from remembered pricing",
+        "ignoring that input and output are priced differently",
+        "omitting that regional pricing differs"
+      ]
+    },
+    {
+      "id": "BR-12",
+      "category": "osint_public_sources",
+      "title": "Company stack inference from public footprint",
+      "difficulty": 3,
+      "expected_mode": "DEEP",
+      "query": "For one mid-size publicly traded software company, determine its likely production technology stack using only public sources: job postings, engineering blog, conference talks, status pages and public repos. Clearly separate what is publicly documented from what is inferred. Do not present inference as fact.",
+      "required_signals": [
+        "at least 4 independent public sources",
+        "INFERENCE claims explicitly labelled as INFERENCE",
+        "no unsourced psychological or business speculation",
+        "confidence level assigned to each inferred item"
+      ],
+      "known_traps": [
+        "turning a hiring preference into a production fact",
+        "citing an employee social post as authoritative",
+        "filling gaps with plausible guesses presented as findings"
+      ]
+    },
+    {
+      "id": "BR-13",
+      "category": "documentation_search",
+      "title": "Answer an undocumented configuration question",
+      "difficulty": 3,
+      "expected_mode": "DEEP",
+      "query": "For a specific self-hosted component, determine whether a given non-default configuration is officially supported and what happens when it is enabled. Use the official documentation, the configuration reference, the issue tracker and the release notes. If the behaviour is not documented anywhere, say NOT DOCUMENTED and report the closest documented evidence rather than guessing.",
+      "required_signals": [
+        "configuration reference cited",
+        "issue tracker consulted and cited",
+        "explicit NOT DOCUMENTED verdict where applicable",
+        "no invented default value"
+      ],
+      "known_traps": [
+        "inventing a plausible default",
+        "citing a random user config as the default",
+        "declaring support based on absence of complaints"
+      ]
+    },
+    {
+      "id": "BR-14",
+      "category": "scientific_research",
+      "title": "Replicated vs failed replication",
+      "difficulty": 4,
+      "expected_mode": "MAX",
+      "query": "Pick a widely cited machine-learning result and trace whether it has been independently replicated. Use arXiv or equivalent for the original and any replications, check for published critiques, and report the replication status honestly. Distinguish exact replication, partial replication, failed replication and not-yet-attempted.",
+      "required_signals": [
+        "original paper cited with identifier",
+        "at least 2 independent replication attempts cited, or explicit statement that none were found",
+        "replication status classified",
+        "critiques cited rather than dismissed"
+      ],
+      "known_traps": [
+        "citing the original paper as if it were the replication",
+        "counting a blog commentary as a replication attempt",
+        "declaring replication status without checking for attempts"
+      ]
+    },
+    {
+      "id": "BR-15",
+      "category": "high_source_volume",
+      "title": "Broad survey with synthesis across many sources",
+      "difficulty": 4,
+      "expected_mode": "ULTRA",
+      "query": "Produce a state-of-the-field survey of retrieval-augmented generation evaluation methods for the last three years. Cover benchmark datasets, automatic metrics, LLM-as-judge reliability studies, human evaluation practice, and known validity threats. Aim for breadth over depth, and make the organisational structure explicit so a reader can navigate it. Flag where the field has no agreed standard.",
+      "required_signals": [
+        "at least 12 distinct sources cited",
+        "at least 6 unique domains",
+        "explicit thematic organisation rather than a list",
+        "stated absence-of-standard finding with evidence",
+        "Research Audit block present"
+      ],
+      "known_traps": [
+        "citing a single survey paper as the survey",
+        "recency bias: ignoring seminal older work",
+        "listing papers without evaluating them"
+      ]
+    }
+  ]
+}
