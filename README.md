@@ -133,6 +133,7 @@ DEEP-RESEARCH-SWARM-v0.1.0-beta/
 ├── group/                ← group prompt, routing, modes, fallback
 ├── docs/                 ← deep documentation
 ├── tests/                 ← acceptance + orchestration + secret scan
+│   └── research-benchmark/  ← 15-task deep research benchmark + 13-metric rubric
 ├── examples/             ← worked examples (5)
 ```
 
